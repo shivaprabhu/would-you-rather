@@ -53,6 +53,7 @@ a {
 .login-container {
   display: flex;
   justify-content: center;
+  margin-top: 40px
 }
 
 .login-container > div {
@@ -232,11 +233,20 @@ input {
   position: absolute;
   top: -20px;
   left: -20px;
-  background: gold;
   color: #282c34;
   font-size: 13px;
-  padding: 10px 20px
+  padding: 10px 20px;
 }
-#username{
+#username {
   padding-right: 10px;
+}
+
+#postion1 {
+  background: gold;
+}
+#postion2 {
+  background: silver;
+}
+#postion3 {
+  background: rgb(228, 105, 74);
 }

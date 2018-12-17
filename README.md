@@ -1,3 +1,117 @@
+# Would You Rather
+This a React app built as a part of @Udacity's React Nanodegree.
+The predefined users can create, view and vote polls. Leaderboard shows the player rankings 
+
+To get started developing right away:
+
+* install all project dependencies with `npm install`
+* start the development server with `npm start`
+
+The tech stack include:
+* Node
+* React
+* React Router
+* Creat React APP
+
+## What You're Getting
+```bash
+├── README.md - This file.
+├── package.json # npm package manager file. It's unlikely that you'll need to modify this.
+├── public
+│   ├── favicon.ico # React Icon, You may change if you wish.
+│   └── index.html # DO NOT MODIFY
+└── src
+    ├── App.css # Styles for your app. Feel free to customize this as you desire.
+    ├── App.js # This is the root of your app. Contains static HTML right now.
+    ├── App.test.js # Used for testing. Provided with Create React App. Testing is encouraged, but not required.
+    ├── BooksAPI.js # A JavaScript API for the provided Udacity backend. Instructions for the methods are below.
+    |── actions # contains all the actions for the redux store
+    |   |── authedUsers.js # actions for setting and getting authenticated user
+    |   |── questions.js # actions for answering, getting, saving question/s  
+    |   |── shared.js # action that gets the initial data by combining users and questions
+    |   └── users.js # 
+    |── components
+    |   |── Home.js
+    |   |── Leaderboard.js
+    |   |── login.js
+    |   |── Navigation.js
+    |   |── NewQuestion.js
+    |   |── Question.js
+    |   |── QuestionDetail.js
+    |   |── QuestionList.js
+    |   |── Result.js
+    |   └── UserProfile.js
+    |── middlewares
+    |   |── index.js
+    |   └── logger.js
+    |── reducers 
+    |   |── authedUsers.js
+    |   |── questions.js
+    |   |── shared.js
+    |   └── users.js
+    |── utils 
+    |   |── _DATA_.js
+    |   └── helper.js
+    ├── icons # Helpful images for your app. Use at your discretion.
+    │   ├── add.svg
+    │   ├── arrow-back.svg
+    │   └── arrow-drop-down.svg
+    ├── index.css # Global styles. You probably won't need to change anything here.
+    └── index.js # You should not need to modify this file. It is used for DOM rendering only.
+```
+
+## Backend Server
+
+To simplify your development process,the backend server is [`_DATA_.js`](src/utils/BooksAPI.js) contains the methods you will need to perform necessary operations on the backend:
+
+* [`_getUsers`](#_getUsers)
+* [`_getQuestions`](#_getQuestions)
+* [`_saveQuestion`](#_saveQuestion)
+* [`_saveQuestionAnswer`](#_saveQuestionAnswer)
+
+### `_getUsers`
+
+Method Signature:
+
+```js
+_getUsers()
+```
+
+* Returns a Promise which resolves to a JSON object containing a collection of users.
+* This collection represents the users registered.
+
+### `_getQuestions`
+
+Method Signature:
+
+```js
+_getQuestions()
+```
+
+* Returns a Promise which resolves to a JSON object containing a collection of questions.
+* This collection represents the questions created by the registered users.
+
+### `_saveQuestion`
+
+Method Signature:
+
+```js
+_saveQuestion({userId, optionOneText, optionTwoText})
+```
+
+* Returns a Promise which resolves to a JSON object containing a newly created poll.
+
+### `_saveQuestionAnswer`
+
+Method Signature:
+
+```js
+_saveQuestionAnswer({ authedUser, qid, answer })
+```
+
+* Returns a Promise which resolves to a JSON object containing all the questions.
+
+## Create React App
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

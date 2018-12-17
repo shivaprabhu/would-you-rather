@@ -1,15 +1,8 @@
 import React, { Component } from "react";
 import "../App.css";
+import { connect } from "react-redux";
 import { handleGetUsers } from "../actions/users";
-import { Context } from "../index";
 import { authUser } from "../actions/authedUser";
-
-class ConnectedLogin extends Component {
-  render() {
-    const { history } = this.props;
-    return <Context.Consumer>{store => <Login store={store} dispatch={store.dispatch} history={history} />}</Context.Consumer>;
-  }
-}
 
 class Login extends Component {
   state = {
@@ -17,32 +10,32 @@ class Login extends Component {
   };
 
   componentDidMount() {
-    const { store } = this.props;
-    store.dispatch(handleGetUsers());
-    store.subscribe(() => {
-      this.forceUpdate();
-    });
+    const { getUsers } = this.props;
+    getUsers();
   }
 
   signIn = e => {
-    const { history, store } = this.props;
+    const { history, authUser } = this.props;
     history.push({ pathname: "/home" });
-    store.dispatch(authUser(this.state.selectedUser));
+    authUser(this.state.selectedUser);
   };
 
   handleUserChange = e => {
     this.setState({ selectedUser: e.target.value });
   };
 
-  render() {
-    const { store } = this.props;
-    const { users } = store.getState();
+  createNewUser = () => {
+    const { history } = this.props;
+    history.push("/createNewUser");
+  };
 
+  render() {
+    const { users } = this.props;
     return (
       <div className="login-container">
         <div>
           <div>
-            <h3>Welcome to would you rather app!</h3>
+            <h1>Welcome to would you rather app!</h1>
             <p>Please sign in to continue</p>
           </div>
           <div>
@@ -52,7 +45,7 @@ class Login extends Component {
                 Select User
               </option>
               {Object.keys(users).map(key => (
-                <option key={users[key]["id"]} value={users[key]["name"]}>
+                <option key={users[key]["id"]} value={users[key]["id"]}>
                   {users[key]["name"]}
                 </option>
               ))}
@@ -67,6 +60,9 @@ class Login extends Component {
             >
               Sign In
             </button>
+            <button style={{ marginLeft: "20px" }} onClick={this.createNewUser}>
+              Create new user
+            </button>
           </div>
         </div>
       </div>
@@ -74,4 +70,22 @@ class Login extends Component {
   }
 }
 
-export default ConnectedLogin;
+function mapDispatchToProps(dispatch) {
+  return {
+    getUsers: () => {
+      handleGetUsers(dispatch);
+    },
+    authUser: user => {
+      authUser(user, dispatch);
+    }
+  };
+}
+
+function mapStateToProps(state, { history }) {
+  return { users: state.users, authUser: state.authUser, history };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login);

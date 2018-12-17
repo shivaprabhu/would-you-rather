@@ -203,6 +203,25 @@ export function _saveQuestionAnswer({ authedUser, qid, answer }) {
         }
       };
 
+      res({ users, questions });
+      //res();
+    }, 500);
+  });
+}
+
+export function _createNewUser(userid, fullname) {
+  return new Promise((res, rej) => {
+    setTimeout(() => {
+      users = {
+        ...users,
+        [userid]: {
+          id: userid,
+          name: fullname,
+          avatarURL: "",
+          answers: {},
+          questions: []
+        }
+      };
       res();
     }, 500);
   });

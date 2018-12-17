@@ -1,27 +1,30 @@
-import React, { Component } from "react";
+import React from "react";
 import "../App.css";
 import UserMale from "../icons/user-male.png";
 
-class UserProfile extends Component {
-  render() {
-    return (
-      <div className="user">
-        <span className="position">1</span>
-        <div className="user-avatar">
-          <img src={UserMale} alt="" />
-        </div>
-        <div style={{ textAlign: "left" }}>
-          <h4>User</h4>
-          <p> Answered questions: 7</p>
-          <p> Created questions: 3</p>
-        </div>
-        <div className="score">
-          <p>Score</p>
-          <p>10</p>
-        </div>
+function UserProfile(props) {
+  const { user, position } = props;
+  return (
+    <div className="user">
+      {position <= 3 && (
+        <span className="position" id={`postion${position}`}>
+          {position}
+        </span>
+      )}
+      <div className="user-avatar">
+        <img src={UserMale} alt="" />
       </div>
-    );
-  }
+      <div style={{ textAlign: "left" }}>
+        <h4>{user.name}</h4>
+        <p> Answered questions: {Object.keys(user.answers).length}</p>
+        <p> Created questions: {user.questions.length}</p>
+      </div>
+      <div className="score">
+        <p>Score</p>
+        <p>{user.score}</p>
+      </div>
+    </div>
+  );
 }
 
 export default UserProfile;

@@ -1,4 +1,4 @@
-import { _getQuestions, _saveQuestion, _saveQuestionAnswer } from "../utils/_DATA";
+import { _saveQuestion, _saveQuestionAnswer } from "../utils/_DATA";
 
 export const GET_QUESTIONS = "GET_QUESTIONS";
 export const SAVE_QUESTION = "SAVE_QUESTION";
@@ -18,20 +18,31 @@ function saveQuestion(question) {
   };
 }
 
-export function handleGetQuestions() {
+function answerQuestion({ authedUser, qid, answer }) {
+  return {
+    type: SAVE_QUESTION_ANSWER,
+    authedUser,
+    qid,
+    answer
+  };
+}
+
+export function handleGetQuestions(questions) {
+  return getQuestions(questions);
+}
+
+export function handleAnswerQuestion({ authedUser, qid, answer }) {
   return dispatch =>
-    Promise.resolve(_getQuestions()).then(questions => {
-      dispatch(getQuestions(questions));
+    Promise.resolve(_saveQuestionAnswer({ authedUser, qid, answer })).then(result => {
+      dispatch(answerQuestion({ authedUser, qid, answer }));
     });
 }
 
 export function handleSaveQuestion(question) {
   return dispatch => {
-    dispatch(saveQuestion(question));
-    Promise.resolve(_saveQuestion(question)).catch(e => {
-      //TODO
-      //remove question
-      console.log(e);
+    Promise.resolve(_saveQuestion(question)).then(result => {
+      console.log(result);
+      dispatch(saveQuestion(result));
     });
   };
 }

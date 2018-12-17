@@ -1,48 +1,40 @@
 import React, { Component } from "react";
 import "../App.css";
-import { Link } from "react-router-dom";
-import { Context } from "../index";
-import { getAuthedUser } from "../actions/authedUser";
-
+import { NavLink } from "react-router-dom";
+import { connect } from "react-redux";
 import userMale from "../icons/user-male.png";
-
-class ConnectedNav extends Component {
-  render() {
-    return <Context.Consumer>{store => <Navigation store={store} />}</Context.Consumer>;
-  }
-}
+import { handleSignoutUser } from "../actions/authedUser";
 
 class Navigation extends Component {
-  componentDidMount() {
-    const { store } = this.props;
-    store.dispatch(getAuthedUser());
-    store.subscribe(() => {
-      const { authUser } = store.getState();
-      if (authUser !== null) {
-        this.forceUpdate();
-      }
-    });
-  }
+  signoutUser = () => {
+    const { signout } = this.props;
+    signout();
+  };
   render() {
-    const { store } = this.props;
-    const { authUser } = store.getState();
+    const { authUser } = this.props;
 
     return (
-      <div className="nav">
-        <div className="nav-items">
-          <Link to={{ pathname: "/home" }}>Home</Link>
-          <Link to={{ pathname: "/newquestion" }}>New Question</Link>
-          <Link to={{ pathname: "/leaderboard" }}>Leader Board</Link>
-        </div>
+      <div>
         {authUser !== null && (
-          <div>
-            <div>
-              <a href="void(0)" id="username">
-                Hello, {authUser}!
-              </a>
-              <img src={userMale} alt={authUser} style={{ width: "30px", height: "30px", marginRight: "50px" }} />
+          <div className="nav">
+            <div className="nav-items">
+              <NavLink to={{ pathname: "/home" }} activeClassName="nav-active">
+                Home
+              </NavLink>
+              <NavLink to={{ pathname: "/add" }}>New Question</NavLink>
+              <NavLink to={{ pathname: "/leaderboard" }}>Leader Board</NavLink>
             </div>
-            <button className="nobg">Logout</button>
+            <div>
+              <div>
+                <a href="void(0)" id="username">
+                  Hello, {authUser}!
+                </a>
+                <img src={userMale} alt={authUser} style={{ width: "30px", height: "30px", marginRight: "50px" }} />
+              </div>
+              <button className="nobg" onClick={this.signoutUser}>
+                Logout
+              </button>
+            </div>
           </div>
         )}
       </div>
@@ -50,4 +42,19 @@ class Navigation extends Component {
   }
 }
 
-export default ConnectedNav;
+function mapDispatchToProps(dispatch) {
+  return {
+    signout: () => {
+      dispatch(handleSignoutUser());
+    }
+  };
+}
+
+function mapStateToProps(authUser) {
+  return authUser;
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Navigation);
